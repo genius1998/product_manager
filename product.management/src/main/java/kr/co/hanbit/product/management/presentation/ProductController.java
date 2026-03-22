@@ -1,8 +1,10 @@
 package kr.co.hanbit.product.management.presentation;
 
+import jakarta.validation.Valid;
 import kr.co.hanbit.product.management.application.SimpleProductService;
 import kr.co.hanbit.product.management.domain.Product;
 import kr.co.hanbit.product.management.dto.ProductDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,24 +15,24 @@ public class ProductController {
 
     private final SimpleProductService simpleProductService;
 
+    @Autowired
     public ProductController(SimpleProductService simpleProductService) {
         this.simpleProductService = simpleProductService;
     }
 
+
+
     @PostMapping
-    public ProductDto createProduct(@RequestBody ProductDto productDto) {
+    public ProductDto createProduct(@Valid @RequestBody ProductDto productDto) {
         return simpleProductService.add(productDto);
     }
+
 
     @GetMapping("/{id}")
     public ProductDto findProductById(@PathVariable Long id) {
         return simpleProductService.findById(id);
     }
 
-//    @RequestMapping(value = "/products", method = RequestMethod.GET)
-//    public List<ProductDto> findAllProducts() {
-//        return simpleProductService.findAll();
-//    }
 
     @GetMapping
     public List<ProductDto> findProducts(
