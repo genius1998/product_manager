@@ -18,4 +18,30 @@ public class ListProductRepository {
         products.add(product);
         return product;
     }
+    public Product findById(Long id) {
+        return products.stream()
+                .filter(product -> product.sameId(id))
+                .findFirst()
+                .orElseThrow();
+    }
+    public List<Product> findAll() {
+        return products;
+    }
+
+    public List<Product> findByNameContaining(String name) {
+        return products.stream()
+                .filter(product -> product.containsName(name))
+                .toList();
+    }
+
+    public Product update(Product product) {
+        Integer indexToModify = products.indexOf(product);
+        products.set(indexToModify, product);
+        return product;
+    }
+
+    public void delete(Long id) {
+        Product product = this.findById(id);
+        products.remove(product);
+    }
 }
